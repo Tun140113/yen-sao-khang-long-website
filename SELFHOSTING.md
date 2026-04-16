@@ -40,6 +40,28 @@ Open:
 
 - `http://<server-ip>:4173`
 
+## Deploy on Vercel (static + Base44 backend)
+
+### 1) Add Vercel rewrites
+
+This repo includes `vercel.json` that proxies:
+
+- `/api/*` -> `https://base44.app/api/*` (required for Google OAuth callback `/api/apps/auth/final-callback`)
+
+### 2) Set environment variables in Vercel
+
+In Vercel Project → Settings → Environment Variables:
+
+- `VITE_BASE44_APP_ID`
+- `VITE_BASE44_BACKEND_URL` = `https://base44.app`
+- `VITE_BASE44_APP_BASE_URL` = `https://base44.app`
+
+### 3) Build settings
+
+- Framework preset: Vite
+- Build command: `npm run build`
+- Output directory: `dist`
+
 ## Option B (real “no Base44”): replace the backend
 
 Code currently calls:

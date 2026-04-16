@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://base44.app/api/$1"
+    },
+    {
+      "source": "/ws-user-apps/socket.io/(.*)",
+      "destination": "https://base44.app/ws-user-apps/socket.io/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+

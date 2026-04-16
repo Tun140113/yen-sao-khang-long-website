@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +10,6 @@ import { logoutAndRedirect } from "@/lib/logout";
 
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
-  const [user, setUser] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -43,23 +41,10 @@ export default function Layout({ children, currentPageName }) {
   };
 
   useEffect(() => {
-    checkAuth();
     updateCartCount();
     window.addEventListener("cartUpdated", updateCartCount);
     return () => window.removeEventListener("cartUpdated", updateCartCount);
   }, []);
-
-  const checkAuth = async () => {
-    try {
-      const isAuth = await base44.auth.isAuthenticated();
-      if (isAuth) {
-        const userData = await base44.auth.me();
-        setUser(userData);
-      }
-    } catch (error) {
-      console.error("Auth check failed:", error);
-    }
-  };
 
   const updateCartCount = () => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -68,7 +53,6 @@ export default function Layout({ children, currentPageName }) {
   };
 
   const handleLogout = async () => {
-    setUser(null);
     logoutAndRedirect(window.location.href);
   };
 
@@ -161,76 +145,42 @@ export default function Layout({ children, currentPageName }) {
                 </motion.div>
               </Link>
 
-              {/* User Actions - Desktop */}
-              {user ? (
-                <div className="hidden sm:flex items-center gap-2">
-                  <Link to={createPageUrl("OrderHistory")}>
-                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                      <Button variant="outline" size="sm" className="rounded-full border-amber-300 text-amber-700 hover:bg-amber-50">
-                        <ClipboardList className="w-4 h-4 mr-2" />
-                        Đơn hàng
-                      </Button>
-                    </motion.div>
-                  </Link>
-                  {user.role === "admin" && (
-                    <Link to={createPageUrl("AdminDashboard")}>
-                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="rounded-full border-amber-300 text-amber-700 hover:bg-amber-50"
-                        >
-                          <LayoutDashboard className="w-4 h-4 mr-2" />
-                          Admin
-                        </Button>
-                      </motion.div>
-                    </Link>
-                  )}
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={toggleTheme}
-                      className="rounded-full hover:bg-amber-50"
-                    >
-                      {darkMode ? <Sun className="w-5 h-5 text-amber-600" /> : <Moon className="w-5 h-5 text-gray-700" />}
-                    </Button>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={handleLogout}
-                      className="rounded-full hover:bg-red-50 hover:text-red-600"
-                    >
-                      <LogOut className="w-5 h-5" />
-                    </Button>
-                  </motion.div>
-                </div>
-              ) : (
-                <>
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={toggleTheme}
-                      className="hidden sm:flex rounded-full hover:bg-amber-50"
-                    >
-                      {darkMode ? <Sun className="w-5 h-5 text-amber-600" /> : <Moon className="w-5 h-5 text-gray-700" />}
-                    </Button>
-                  </motion.div>
+              {/* Desktop Actions (no customer login) */}
+              <div className="hidden sm:flex items-center gap-2">
+                <Link to={createPageUrl("AdminDashboard")}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Button
-                      onClick={() => base44.auth.redirectToLogin()}
+                      variant="outline"
                       size="sm"
-                      className="hidden sm:flex bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-full shadow-lg"
+                      className="rounded-full border-amber-300 text-amber-700 hover:bg-amber-50"
                     >
-                      <User className="w-4 h-4 mr-2" />
-                      Đăng Nhập
+                      <LayoutDashboard className="w-4 h-4 mr-2" />
+                      Quản Trị
                     </Button>
                   </motion.div>
-                </>
-              )}
+                </Link>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggleTheme}
+                    className="rounded-full hover:bg-amber-50"
+                  >
+                    {darkMode ? <Sun className="w-5 h-5 text-amber-600" /> : <Moon className="w-5 h-5 text-gray-700" />}
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleLogout}
+                    className="rounded-full hover:bg-red-50 hover:text-red-600"
+                    title="Đăng xuất (xoá token)"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+              </div>
 
               {/* Mobile Menu */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -274,51 +224,28 @@ export default function Layout({ children, currentPageName }) {
                         </Link>
                       ))}
 
-                      {user && user.role === "admin" && (
-                        <Link to={createPageUrl("AdminDashboard")} onClick={() => setMobileMenuOpen(false)}>
-                          <motion.div whileTap={{ scale: 0.95 }}>
-                            <Button variant="ghost" className="w-full justify-start rounded-xl py-6 text-base text-gray-700 hover:bg-amber-50">
-                              <LayoutDashboard className="w-5 h-5 mr-3" />
-                              Admin Dashboard
-                            </Button>
-                          </motion.div>
-                        </Link>
-                      )}
+                      <Link to={createPageUrl("AdminDashboard")} onClick={() => setMobileMenuOpen(false)}>
+                        <motion.div whileTap={{ scale: 0.95 }}>
+                          <Button variant="ghost" className="w-full justify-start rounded-xl py-6 text-base text-gray-700 hover:bg-amber-50">
+                            <LayoutDashboard className="w-5 h-5 mr-3" />
+                            Quản Trị
+                          </Button>
+                        </motion.div>
+                      </Link>
                     </nav>
 
                     <div className="pt-6 border-t border-amber-200">
-                      {user ? (
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl">
-                            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
-                              <User className="w-6 h-6 text-white" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-semibold text-gray-900 truncate">{user.full_name}</div>
-                              <div className="text-xs text-gray-600 truncate">{user.email}</div>
-                            </div>
-                          </div>
-                          <Button
-                            onClick={handleLogout}
-                            variant="outline"
-                            className="w-full rounded-xl border-red-200 text-red-600 hover:bg-red-50"
-                          >
-                            <LogOut className="w-4 h-4 mr-2" />
-                            Đăng Xuất
-                          </Button>
-                        </div>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            base44.auth.redirectToLogin();
-                            setMobileMenuOpen(false);
-                          }}
-                          className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-xl py-6"
-                        >
-                          <User className="w-5 h-5 mr-2" />
-                          Đăng Nhập
-                        </Button>
-                      )}
+                      <Button
+                        onClick={() => {
+                          handleLogout();
+                          setMobileMenuOpen(false);
+                        }}
+                        variant="outline"
+                        className="w-full rounded-xl border-red-200 text-red-600 hover:bg-red-50"
+                      >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Đăng Xuất
+                      </Button>
                     </div>
                   </div>
                 </SheetContent>

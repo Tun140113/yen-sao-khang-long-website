@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Award, Shield, Leaf, Star, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
-import ChatWidget from "../components/chat/ChatWidget";
-import CustomerChatButton from "../components/CustomerChatButton";
 import { notifyWebsiteVisit } from "@/components/DiscordNotifications";
 
 export default function Home() {
@@ -88,8 +86,6 @@ export default function Home() {
 
   return (
     <div className="bg-white" style={{ fontFamily: "'Lora', serif" }}>
-      <ChatWidget />
-      <CustomerChatButton />
       {/* Hero Section */}
       <section className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
         <div className="absolute inset-0 opacity-10">

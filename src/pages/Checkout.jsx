@@ -21,7 +21,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
   const [voucherCode, setVoucherCode] = useState("");
   const [appliedVoucher, setAppliedVoucher] = useState(null);
   const [voucherError, setVoucherError] = useState("");
@@ -86,17 +86,8 @@ export default function Checkout() {
     enabled: !isCheckingAuth && !appliedVoucher && cart.length > 0
   });
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await base44.auth.isAuthenticated();
-      if (!isAuth) {
-        base44.auth.redirectToLogin(window.location.pathname + window.location.search);
-        return;
-      }
-      setIsCheckingAuth(false);
-    };
-    checkAuth();
-  }, []);
+  // Self-host mode: checkout is public. If the user is logged in, we still
+  // prefill fields via `base44.auth.me()` above, but we don't force login.
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");

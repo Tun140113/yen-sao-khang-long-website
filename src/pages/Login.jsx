@@ -62,12 +62,6 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // This triggers a browser redirect to `/api/apps/auth/login?...`.
-    // With `VITE_BASE44_APP_BASE_URL` set, Vite (dev) and Nginx (prod) should proxy `/api` to `https://base44.app`.
-    base44.auth.loginWithProvider("google", fromUrl || window.location.href);
-  };
-
   const handleBackHome = () => {
     navigate("/");
   };
@@ -83,16 +77,6 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleEmailPasswordLogin} className="space-y-4">
-          <Button type="button" variant="outline" className="w-full" onClick={handleGoogleLogin}>
-            Đăng nhập bằng Google
-          </Button>
-
-          <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-gray-200" />
-            <div className="text-xs text-gray-500">hoặc</div>
-            <div className="h-px flex-1 bg-gray-200" />
-          </div>
-
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">Email</label>
             <Input

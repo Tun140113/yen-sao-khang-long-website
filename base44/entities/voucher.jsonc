@@ -1,0 +1,93 @@
+{
+  "name": "Voucher",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Mã voucher (VD: YENSAO2024)"
+    },
+    "discount_type": {
+      "type": "string",
+      "enum": [
+        "percentage",
+        "fixed"
+      ],
+      "default": "percentage",
+      "description": "Loại giảm giá: phần trăm hoặc số tiền cố định"
+    },
+    "discount_value": {
+      "type": "number",
+      "description": "Giá trị giảm (% hoặc VND)"
+    },
+    "min_order_value": {
+      "type": "number",
+      "default": 0,
+      "description": "Giá trị đơn hàng tối thiểu để áp dụng"
+    },
+    "max_discount": {
+      "type": "number",
+      "description": "Số tiền giảm tối đa (cho voucher %)"
+    },
+    "usage_limit": {
+      "type": "number",
+      "description": "Số lần sử dụng tối đa"
+    },
+    "usage_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Số lần đã sử dụng"
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date",
+      "description": "Ngày bắt đầu hiệu lực"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date",
+      "description": "Ngày hết hạn"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Trạng thái kích hoạt"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mô tả voucher"
+    }
+  },
+  "required": [
+    "code",
+    "discount_type",
+    "discount_value",
+    "valid_until"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

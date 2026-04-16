@@ -1,0 +1,45 @@
+{
+  "name": "ShippingMethod",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Tên phương thức vận chuyển"
+    },
+    "price": {
+      "type": "number",
+      "description": "Phí vận chuyển (VND)"
+    },
+    "estimatedTime": {
+      "type": "string",
+      "description": "Thời gian giao hàng dự kiến"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Đang kích hoạt"
+    }
+  },
+  "required": [
+    "name",
+    "price"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

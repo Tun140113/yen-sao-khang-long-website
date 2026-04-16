@@ -1,0 +1,61 @@
+{
+  "name": "LoyaltyPoint",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email của khách hàng"
+    },
+    "points": {
+      "type": "number",
+      "default": 0,
+      "description": "Số điểm tích lũy"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "platinum"
+      ],
+      "default": "bronze",
+      "description": "Hạng thành viên"
+    },
+    "lifetime_points": {
+      "type": "number",
+      "default": 0,
+      "description": "Tổng điểm tích lũy từ trước đến nay"
+    }
+  },
+  "required": [
+    "user_email"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "user_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

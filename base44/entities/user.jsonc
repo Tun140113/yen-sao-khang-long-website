@@ -1,0 +1,13 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "avatar_url": {
+      "type": "string",
+      "description": "URL of the user's avatar image"
+    }
+  },
+  "required": [
+    "avatar_url"
+  ]
+}

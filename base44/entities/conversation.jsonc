@@ -1,0 +1,58 @@
+{
+  "name": "Conversation",
+  "type": "object",
+  "properties": {
+    "customer_email": {
+      "type": "string",
+      "description": "Customer's email address"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer's name"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "default": "open",
+      "description": "Conversation status"
+    },
+    "last_message": {
+      "type": "string",
+      "description": "Last message preview"
+    },
+    "last_message_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of last message"
+    },
+    "unread_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of unread messages for seller"
+    }
+  },
+  "required": [
+    "customer_email",
+    "customer_name"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Certificate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Tên chứng nhận"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mô tả chi tiết"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Ảnh chứng nhận"
+    },
+    "issued_by": {
+      "type": "string",
+      "description": "Đơn vị cấp"
+    },
+    "issued_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Ngày cấp"
+    },
+    "certificate_type": {
+      "type": "string",
+      "enum": [
+        "quality",
+        "safety",
+        "origin",
+        "award",
+        "other"
+      ],
+      "description": "Loại chứng nhận"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Thứ tự hiển thị"
+    }
+  },
+  "required": [
+    "name",
+    "image_url",
+    "certificate_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

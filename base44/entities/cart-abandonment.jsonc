@@ -1,0 +1,53 @@
+{
+  "name": "CartAbandonment",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email khách hàng"
+    },
+    "cart_items": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Sản phẩm trong giỏ"
+    },
+    "total_value": {
+      "type": "number",
+      "description": "Tổng giá trị giỏ hàng"
+    },
+    "email_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Đã gửi email nhắc nhở"
+    },
+    "recovered": {
+      "type": "boolean",
+      "default": false,
+      "description": "Khách đã quay lại mua"
+    }
+  },
+  "required": [
+    "user_email",
+    "cart_items",
+    "total_value"
+  ],
+  "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

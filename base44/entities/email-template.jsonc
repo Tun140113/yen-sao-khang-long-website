@@ -1,0 +1,62 @@
+{
+  "name": "EmailTemplate",
+  "type": "object",
+  "properties": {
+    "template_type": {
+      "type": "string",
+      "enum": [
+        "order_confirmation",
+        "order_processing",
+        "order_shipped",
+        "order_delivered",
+        "order_cancelled",
+        "welcome_customer"
+      ],
+      "description": "Loại email template"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Tiêu đề email"
+    },
+    "html_content": {
+      "type": "string",
+      "description": "Nội dung HTML của email (hỗ trợ {{placeholders}})"
+    },
+    "placeholders_guide": {
+      "type": "string",
+      "description": "Hướng dẫn sử dụng placeholders"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Template đang được sử dụng"
+    }
+  },
+  "required": [
+    "template_type",
+    "subject",
+    "html_content"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

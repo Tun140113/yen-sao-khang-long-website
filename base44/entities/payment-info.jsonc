@@ -1,0 +1,61 @@
+{
+  "name": "PaymentInfo",
+  "type": "object",
+  "properties": {
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "bank_transfer",
+        "momo",
+        "vnpay"
+      ],
+      "description": "Phương thức thanh toán"
+    },
+    "account_name": {
+      "type": "string",
+      "description": "Tên tài khoản"
+    },
+    "account_number": {
+      "type": "string",
+      "description": "Số tài khoản"
+    },
+    "bank_name": {
+      "type": "string",
+      "description": "Tên ngân hàng"
+    },
+    "qr_code_url": {
+      "type": "string",
+      "description": "Link ảnh mã QR"
+    },
+    "instructions": {
+      "type": "string",
+      "description": "Hướng dẫn thanh toán"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Trạng thái kích hoạt"
+    }
+  },
+  "required": [
+    "payment_method"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

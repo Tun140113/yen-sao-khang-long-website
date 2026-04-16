@@ -1,0 +1,77 @@
+{
+  "name": "Video",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Tiêu đề video"
+    },
+    "description": {
+      "type": "string",
+      "description": "Mô tả video"
+    },
+    "video_type": {
+      "type": "string",
+      "enum": [
+        "youtube",
+        "upload"
+      ],
+      "default": "youtube",
+      "description": "Loại video"
+    },
+    "youtube_url": {
+      "type": "string",
+      "description": "Link YouTube (nếu chọn youtube)"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "URL video upload (nếu chọn upload)"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Ảnh thumbnail"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "product_intro",
+        "customer_review",
+        "tutorial",
+        "brand_story"
+      ],
+      "description": "Danh mục video"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hiển thị nổi bật"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Thứ tự hiển thị"
+    }
+  },
+  "required": [
+    "title",
+    "video_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

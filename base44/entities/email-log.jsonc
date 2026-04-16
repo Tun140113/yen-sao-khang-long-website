@@ -1,0 +1,64 @@
+{
+  "name": "EmailLog",
+  "type": "object",
+  "properties": {
+    "flow_id": {
+      "type": "string",
+      "description": "ID của flow email"
+    },
+    "recipient_email": {
+      "type": "string",
+      "description": "Email người nhận"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Tiêu đề email"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "sent",
+        "failed",
+        "pending"
+      ],
+      "default": "pending",
+      "description": "Trạng thái gửi"
+    },
+    "sent_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Thời gian gửi"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Thông báo lỗi nếu có"
+    }
+  },
+  "required": [
+    "recipient_email",
+    "subject",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
